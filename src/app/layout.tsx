@@ -8,6 +8,6 @@ export const metadata: Metadata = {
   description: "A calm Nile-view retreat in Aswan, Egypt.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

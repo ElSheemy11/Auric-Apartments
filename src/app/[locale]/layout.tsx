@@ -61,7 +61,7 @@ export async function generateMetadata({
 
   return {
     title: SITE_CONFIG.name,
-    description: t("brandTagline"),
+    description: t("tagline"),
     alternates: {
       languages: { en: "/en", ar: "/ar" },
     },

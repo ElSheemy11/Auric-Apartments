@@ -1,67 +1,52 @@
-# Auric Hotel Demo: Agent Rules
+# Auric Apartments: Agent Rules
 
-Bilingual (Arabic RTL / English) hotel website plus staff dashboard. Multi-tenant by design.
-These rules apply to every task. Follow them strictly.
+Bilingual (Arabic RTL / English) apartment marketplace for students and apartment seekers in Aswan, Egypt.
+Single tenant by design (one marketplace, no multi-tenancy). These rules apply to every task. Follow them strictly.
 
 ## Stack (do not change without asking)
 - Next.js App Router, TypeScript strict, Tailwind v4, shadcn/ui
-- Clerk (@clerk/nextjs) for auth, next-intl for i18n, react-hook-form + zod for forms
-- Neon Postgres + Drizzle ORM (@neondatabase/serverless). No separate backend: server
-  actions and route handlers only. (.NET was dropped.)
-- lucide-react icons, date-fns for dates
+- Clerk (@clerk/nextjs) for auth, next-intl (en/ar, localePrefix always, default ar), react-hook-form + zod for forms
+- Neon Postgres + Drizzle ORM (@neondatabase/serverless). No separate backend: server actions and route handlers only.
+- lucide-react icons, date-fns for dates, ImageKit for image uploads
 
 ## Safety
-1. Never open, print, edit or commit .env* files. To check that a variable exists, print
-   true/false only, never the value.
+1. Never open, print, edit or commit .env* files. To check that a variable exists, print true/false only, never the value.
 2. Never upgrade or remove dependencies. Adding one needs a one-line reason first.
-3. Read a file before editing it. Make minimal edits. Do not overwrite working files from
-   earlier phases unless the task says so.
+3. Read a file before editing it. Make minimal edits. Do not overwrite working files from earlier phases unless the task says so.
 4. Middleware file: proxy.ts (Next 16+) or middleware.ts (Next 15 and below). Never both.
-5. For Clerk, next-intl, Drizzle and Neon, follow the current official docs, not memory.
-   If unsure of an API, say so.
-6. Never run destructive DB commands (drop, truncate, reset), except the seed script, and
-   only against the demo tenant.
+5. For Clerk, next-intl, Drizzle and Neon, follow the current official docs, not memory. If unsure of an API, say so.
+6. Never run destructive DB commands (drop, truncate, reset), except the seed script, and only against the demo database.
 7. Work one phase at a time. Finish, report, then STOP and wait for "go".
-8.Never run cloud-provisioning CLIs (neon, vercel) or change global tool config (~/.gemini, MCP) without asking me.
+8. Never run cloud-provisioning CLIs (neon, vercel) or change global tool config (~/.gemini, MCP) without asking me.
 
 ## Speed rules
-- After each step run `npx tsc --noEmit` and lint on changed files.
-  Run `npm run build` only ONCE, at the end of a phase.
+- After each step run `npx tsc --noEmit` and lint on changed files. Run `npm run build` only ONCE, at the end of a phase.
 - No browser or screenshot testing unless asked. No exploratory refactors. No extra docs.
 - If a step fails twice, stop and report instead of trying a third approach.
 - Keep reports under 25 lines.
 
 ## Architecture rules
-- DB access is server-only. The db client lives in src/server/db/ and imports "server-only".
-  Pages and components never import db directly. They call functions in src/server/queries/
-  and src/server/actions/.
-- Multi-tenancy: every table has tenant_id. Every query function takes tenantId as a
-  required argument and filters on it. Never query without a tenant filter (except the
-  tenants lookup itself).
-- The tenant comes from getCurrentTenant() in src/lib/tenant.ts, never from client input.
-- Staff actions call requireStaff() first. Public actions validate with zod and never trust
-  client-sent prices, status, or tenant.
-- Prices are computed server-side. Money is integer USD cents. Dates are Postgres `date`.
-  "Today" is computed in Africa/Cairo.
+- DB access is server-only. The db client lives in src/server/db/ and imports "server-only". Pages and components never import db directly; they call functions in src/server/queries/ and src/server/actions/.
+- Single tenant: there is no tenants table, no tenant_id columns, no getCurrentTenant helpers, and no tenant filters. Every table stands on its own; properties carry a nullable-safe city text column (default 'aswan') for future expansion.
+- The current user comes from Clerk (auth() / currentUser()) via src/lib/auth.ts, never from client input.
+- Owner actions call requireUser() (and requireOwnerOf(propertyId) for mutations on another owner's data); admin actions call requireAdmin(). Public actions validate with zod and never trust client-sent prices, status, or ownership.
+- Prices are computed server-side. Money is integer EGP cents. Dates are Postgres date/timestamptz. "Today" is computed in Africa/Cairo.
 - Entity types come from Drizzle (InferSelectModel). No duplicate hand-written entity types.
 
 ## Code standards
 - No `any`. Server Components by default; add "use client" only when needed.
-- Zod schemas for every external input, in src/lib/schemas/.
-- No hardcoded UI text. Strings go in messages/en.json and messages/ar.json (always both).
-- RTL-safe logical utilities only (ms-*, me-*, ps-*, pe-*, text-start, text-end, start-*,
-  end-*). Never ml-*, mr-*, pl-*, pr-*, text-left, text-right, left-*, right-*.
+- Zod schemas for every external input, in src/lib/validators/.
+- No hardcoded UI text. Strings go in messages/en.json and messages/ar.json (always both). Values may be the key path itself while real copy is unwritten.
+- RTL-safe logical utilities only (ms-*, me-*, ps-*, pe-*, text-start, text-end, start-*, end-*). Never ml-*, mr-*, pl-*, pr-*, text-left, text-right, left-*, right-*.
 - Use Link/redirect from src/i18n/navigation for locale-aware navigation.
 - Accessible: semantic HTML, alt text, labels, visible focus states.
 
 ## Brand
-Premium, calm, minimal. charcoal #23211f, ink #161513, gold #b8975a, soft gold #f1e8d6,
-sand #fbf8f2. Serif headings, clean sans body, generous white space.
+Premium, calm, minimal. charcoal #23211f, ink #161513, gold #b8975a, soft gold #f1e8d6, sand #fbf8f2. Serif headings, clean sans body, generous white space.
 No gradients, emoji, or hype-style copy.
 
 ## Report format after each phase
-Files created/edited, commands run and results, anything skipped or uncertain,
-and how I can test it manually.
+Files created/edited, commands run and results, anything skipped or uncertain, and how I can test it manually.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

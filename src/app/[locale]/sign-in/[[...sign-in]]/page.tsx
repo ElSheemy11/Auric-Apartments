@@ -20,15 +20,15 @@ type Props = {
 export default async function SignInPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("auth");
+  const t = await getTranslations();
 
   return (
     <main className="flex min-h-full flex-col items-center justify-center bg-sand px-4 py-12">
       <div className="w-full max-w-md">
         <header className="mb-8 text-center">
-          <p className="font-heading text-3xl text-ink">{t("signInTitle", { hotel: SITE_CONFIG.name })}</p>
+          <p className="font-heading text-3xl text-ink">{t("nav.signIn")}</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            {t("signInSubtitle")}
+            {SITE_CONFIG.name}
           </p>
         </header>
 
@@ -57,7 +57,7 @@ export default async function SignInPage({ params }: Props) {
             href="/"
             className="text-gold underline-offset-4 hover:underline"
           >
-            {t("backToSite")}
+            {t("nav.home")}
           </Link>
         </p>
       </div>

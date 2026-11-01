@@ -182,7 +182,7 @@ export function SiteHeader() {
           />
 
           <Link
-            href="/book"
+            href="/listings"
             className={cn(
               ctaClass,
               "hidden items-center justify-center rounded-xl px-4 py-1.5 text-sm md:inline-flex",
@@ -190,7 +190,7 @@ export function SiteHeader() {
               motionSafe,
             )}
           >
-            {t("nav.bookNow")}
+            {t("nav.listYourProperty")}
           </Link>
 
           {/* Mobile menu */}
@@ -276,7 +276,7 @@ export function SiteHeader() {
 
 
                 <Link
-                  href="/book"
+                  href="/listings"
                   onClick={handleNavClick}
                   className={cn(
                     ctaClass,
@@ -285,7 +285,7 @@ export function SiteHeader() {
                     motionSafe,
                   )}
                 >
-                  {t("nav.bookNow")}
+                  {t("nav.listYourProperty")}
                 </Link>
               </div>
             </SheetContent>

@@ -15,10 +15,10 @@ const fieldClass = cn(
 
 export function ContactForm({
   whatsappDigits,
-  hotelName,
+  siteName,
 }: {
   whatsappDigits: string;
-  hotelName: string;
+  siteName: string;
 }) {
   const t = useTranslations("contact.form");
   const [name, setName] = useState("");
@@ -37,7 +37,7 @@ export function ContactForm({
     setError(false);
 
     const text = t("prefill", {
-      hotel: hotelName,
+      site: siteName,
       name: cleanName,
       message: cleanMessage,
     });

@@ -1,419 +1,126 @@
 {
   "common": {
-    "brandTagline": "ملاذ هادئ بإطلالة على النيل في أسوان",
-    "loading": "جارٍ التحميل…",
-    "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
-    "openMaps": "افتح في خرائط جوجل"
+    "appName": "common.appName",
+    "loading": "common.loading",
+    "error": "common.error",
+    "notFound": "common.notFound",
+    "showContact": "common.showContact",
+    "contactRevealed": "common.contactRevealed",
+    "tagline": "common.tagline"
   },
   "nav": {
-    "home": "الرئيسية",
-    "rooms": "الغرف",
-    "experiences": "التجارب",
-    "contact": "اتصل بنا",
-    "bookNow": "احجز الآن",
-    "policies": "السياسات",
-    "dashboard": "لوحة التحكم",
-    "menu": "القائمة",
-    "openMenu": "فتح القائمة",
-    "closeMenu": "إغلاق القائمة",
-    "switchLanguage": "English",
-    "signIn": "تسجيل الدخول"
-  },
-  "auth": {
-    "signInTitle": "تسجيل الدخول إلى {hotel}",
-    "signInSubtitle": "ادخل إلى لوحة التحكم الخاصة بالموظفين أو أدر حجوزاتك.",
-    "backToSite": "العودة إلى الموقع",
-    "switchLanguage": "English"
-  },
-  "whatsapp": {
-    "label": "تواصل معنا عبر واتساب",
-    "prefill": "مرحبًا، أود الاستفسار عن الإقامة في {hotel}."
-  },
-  "rooms": {
-    "title": "ملاذات على ضفاف النيل",
-    "subtitle": "غرف وفيلات خاصة مصممة بعناية ومستوحاة من التراث النوبي.",
-    "perNight": "/ ليلة",
-    "bookRoom": "حجز",
-    "noRooms": "لا توجد غرف متاحة في الوقت الحالي.",
-    "view": {
-      "nile": "إطلالة على النيل",
-      "garden": "إطلالة على الحديقة",
-      "city": "إطلالة على المدينة"
-    },
-    "similarRooms": "غرف مماثلة",
-    "capacity": "{n, plural, one {حتى # نزيل} other {حتى # نزيل}}",
-    "bed": "نوع السرير",
-    "size": "{sqm} م²",
-    "amenities": "وسائل الراحة",
-    "from": "ابتداءً من {price} في الليلة",
-    "pricePerNight": "سعر الليلة",
-    "requestThisRoom": "اطلب هذه الغرفة",
-    "noMatch": "لا توجد غرف مطابقة لمعايير البحث.",
-    "filters": {
-      "view": "الإطلالة",
-      "guests": "النزلاء",
-      "any": "أي",
-      "allViews": "كل الإطلالات",
-      "min": "{n, plural, one {نزلاء واحد أو أكثر} two {نزيلان أو أكثر} few {# نزيل أو أكثر} many {# نزيلًا أو أكثر} other {# نزيل أو أكثر}}"
-    },
-    "backToRooms": "جميع الغرف",
-    "requestNote": "أرسل طلبك وسيؤكده الفندق معك مباشرة.",
-    "meta": {
-      "title": "{name} — الغرف",
-      "description": "تصفّح غرفنا بإطلالات على النيل والحديقة، وأرسل طلب الإقامة عبر واتساب."
-    }
-  },
-  "amenities": {
-    "nile-view-terrace": "تراس بإطلالة على النيل",
-    "freestanding-bath": "حمام استحمام قائم بذاته",
-    "butler-service": "خدمة بوتلر",
-    "breakfast-included": "الإفطار مشمول",
-    "panoramic-balcony": "شرفة بانورامية",
-    "walk-in-shower": "دش بمساحة مفتوحة",
-    "espresso-bar": "بار إسبرسو",
-    "espresso-machine": "آلة إسبرسو",
-    "riverfront-balcony": "شرفة على واجهة النهر",
-    "nubian-cotton-linens": "ملاءات من القطن النوبي",
-    "private-patio": "فناء خاص",
-    "courtyard-view": "إطلالة على الفناء",
-    "handcrafted-furnishings": "أثاث مصنوع يدويًا",
-    "garden-loggia": "رواق يطل على الحديقة",
-    "artisan-tea-bar": "بار شاي حرفي",
-    "marble-bathroom": "حمام رخامي",
-    "courtyard-outlook": "إطلالة على الفناء",
-    "work-desk": "مكتب عمل",
-    "walk-in-rain-shower": "دش مطري مفتوح"
-  },
-  "footer": {
-    "quickLinks": "روابط سريعة",
-    "contact": "تواصل معنا",
-    "whatsapp": "واتساب",
-    "facebook": "فيسبوك",
-    "instagram": "إنستغرام",
-    "copyright": "© 2026 {brand} — جميع الحقوق محفوظة.",
-    "staff": "لوحة تحكم الموظفين"
-  },
-  "policies": {
-    "title": "السياسات",
-    "intro": "يجري الآن تجهيز سياسات الحجز والإلغاء وقواعد الإقامة الكاملة ضمن هذا النموذج. لا تتردد في التواصل معنا إذا احتجت أي تفاصيل عن إقامتك."
-  },
-  "highlights": {
-    "nileViews": "إطلالات على النيل",
-    "dailyBreakfast": "إفطار يومي",
-    "airportTransfer": "توصيل من وإلى المطار",
-    "localExperiences": "تجارب محلية"
-  },
-  "gallery": {
-    "images": {
-      "g1": "جناح بإطلالة على النيل عند الغروب",
-      "g2": "شرفة على السطح تطل على النهر",
-      "g3": "رحلة فلوكة وقت الغروب",
-      "g4": "إفطار يُقدَّم في فناء الفندق"
-    },
-    "stats": {
-      "rooms": "غرف وأجنحة",
-      "experiences": "تجارب مختارة",
-      "rating": "تقييم النزلاء"
-    }
+    "home": "nav.home",
+    "listings": "nav.listings",
+    "dashboard": "nav.dashboard",
+    "favorites": "nav.favorites",
+    "admin": "nav.admin",
+    "signIn": "nav.signIn",
+    "signOut": "nav.signOut",
+    "menu": "nav.menu",
+    "switchLanguage": "nav.switchLanguage",
+    "openMenu": "nav.openMenu",
+    "closeMenu": "nav.closeMenu",
+    "listYourProperty": "nav.listYourProperty"
   },
   "home": {
-    "meta": {
-      "title": "{name} — فندق بوتيك على النيل في أسوان",
-      "description": "غرف بإطلالة على النيل وتجارب مختارة في أسوان، مع تأكيد الحجز مباشرة عبر واتساب."
-    },
-    "hero": {
-      "title": "إقامة هادئة على ضفاف النيل",
-      "subtitle": "غرف بوتيك وأجواء نوبية وتجارب مختارة في قلب أسوان."
-    },
-    "availability": {
-      "checkIn": "تاريخ الوصول",
-      "checkOut": "تاريخ المغادرة",
-      "guests": "عدد النزلاء",
-      "submit": "تحقق من التوفر",
-      "errorDates": "يرجى اختيار تاريخي الوصول والمغادرة.",
-      "errorPast": "لا يمكن أن يكون تاريخ الوصول في الماضي.",
-      "errorOrder": "يجب أن يكون تاريخ المغادرة بعد تاريخ الوصول."
-    },
-    "featuredRooms": {
-      "title": "غرف مميزة",
-      "from": "ابتداءً من {price} في الليلة",
-      "capacity": "{n, plural, one {حتى فرد واحد} other {حتى # أفراد}}",
-      "seeAll": "عرض كل الغرف"
-    },
-    "experiences": {
-      "title": "تجارب مختارة",
-      "subtitle": "من الإبحار في النيل الخالد إلى اكتشاف روائع أسوان، عِش تجارب استثنائية صُممت لتمنحك ذكريات لا تُنسى.",
-      "empty": "نحدّث تجاربنا حاليًا، يرجى العودة قريبًا.",
-      "duration": {
-        "hours": "{n, plural, one {ساعة واحدة} two {ساعتان} few {# ساعات} many {# ساعة} other {# ساعة}}",
-        "minutes": "{n, plural, one {دقيقة واحدة} two {دقيقتان} few {# دقائق} many {# دقيقة} other {# دقيقة}}"
-      },
-      "seeAll": "عرض كل التجارب"
-    },
-    "gallery": {
-      "title": "لمحة عن عالمنا",
-      "subtitle": "اكتشف اللحظات والمساحات والتجارب على ضفاف النيل التي تجعل من كل إقامة تجربة لا تُنسى."
-    },
-    "steps": {
-      "title": "كيف تحجز",
-      "s1": {
-        "step": "الخطوة 1",
-        "title": "اختر تاريخي إقامتك",
-        "body": "أخبرنا بموعد وصولك وعدد النزلاء المسافرين. لا حاجة إلى حساب ولا إلى دفع مسبق للبدء."
-      },
-      "s2": {
-        "step": "الخطوة 2",
-        "title": "اختر غرفتك",
-        "body": "تصفّح الغرف بإطلالة على النيل والحديقة، أضف رحلة فلوكة عند الغروب أو زيارة معبد، ثم أرسل طلبك في دقيقة."
-      },
-      "s3": {
-        "step": "الخطوة 3",
-        "title": "التأكيد عبر واتساب",
-        "body": "يتواصل معك مستقبلك لمراجعة طلبك وتأكيده مباشرة عبر واتساب، مع رقم الحجز وتفاصيل الوصول."
-      }
-    },
-    "reviews": {
-      "title": "آراء النزلاء",
-      "subtitle": "كلمات من نزلائنا",
-      "r1": {
-        "text": "استيقظنا على إطلالة على النيل كل صباح. الغرفة كانت هادئة ونظيفة تمامًا ومطابقة للصور.",
-        "role": "شهر عُسل، ألمانيا"
-      },
-      "r2": {
-        "text": "كان الحجز سهلًا وبسيطًا. أرسلنا الطلب وحصلنا على التأكيد عبر واتساب خلال ساعة.",
-        "role": "عطلة نهاية أسبوع، القاهرة"
-      },
-      "r3": {
-        "text": "رحلة الفلوكا عند الغروب كانت أجمل لحظات رحلتنا، والفندق تكفّل بكل الترتيبات.",
-        "role": "ثلاث ليالٍ، فرنسا"
-      }
-    },
-    "location": {
-      "title": "الموقع",
-      "addressLabel": "العنوان",
-      "airport": "مطار أسوان الدولي — حوالي 15 دقيقة بالسيارة",
-      "train": "محطة قطار أسوان — حوالي 10 دقائق بالسيارة",
-      "corniche": "كورنيش النيل — على بُعد خطوات من الفندق",
-      "philae": "معبد فيلة — حوالي 20 دقيقة بالقارب"
-    },
-    "cta": {
-      "title": "جهّز إقامتك معنا",
-      "body": "أرسل تاريخي إقامتك وسنرد عليك بالتوفر وأفضل سعر لغرفتك.",
-      "request": "اطلب إقامتك"
-    }
+    "title": "home.title",
+    "subtitle": "home.subtitle",
+    "cta": "home.cta"
   },
-  "contact": {
-    "meta": {
-      "title": "تواصل معنا — {name}",
-      "description": "تواصل مع الفندق عبر واتساب أو الهاتف أو البريد، وتعرّف على موقعنا على الخريطة."
-    },
-    "title": "تواصل معنا",
-    "subtitle": "أسرع طريقة للوصول إلينا هي واتساب.",
-    "unavailable": "بيانات التواصل ستتوفر قريباً.",
-    "whatsapp": { "cta": "راسلنا عبر واتساب" },
-    "call": "اتصل بنا",
-    "email": "البريد الإلكتروني",
-    "hours": "الاستقبال",
-    "address": "العنوان",
-    "location": {
-      "title": "موقعنا",
-      "directions": "احصل على الاتجاهات",
-      "mapTitle": "خريطة توضح موقع الفندق"
-    },
-    "form": {
-      "title": "أرسل رسالة",
-      "subtitle": "ستفتح رسالتك في واتساب جاهزة للإرسال.",
-      "name": "اسمك",
-      "message": "رسالتك",
-      "send": "المتابعة عبر واتساب",
-      "required": "يرجى كتابة اسمك ورسالتك.",
-      "prefill": "مرحباً {hotel}، معكم {name}.\n\n{message}"
-    }
+  "listings": {
+    "title": "listings.title",
+    "search": "listings.search",
+    "filter": "listings.filter",
+    "rent": "listings.rent",
+    "sale": "listings.sale",
+    "sharedRoom": "listings.sharedRoom",
+    "noListings": "listings.noListings",
+    "price": "listings.price",
+    "perMonth": "listings.perMonth",
+    "bedrooms": "listings.bedrooms",
+    "bathrooms": "listings.bathrooms",
+    "area": "listings.area",
+    "furnished": "listings.furnished",
+    "neighborhood": "listings.neighborhood",
+    "city": "listings.city",
+    "sort": "listings.sort",
+    "newest": "listings.newest",
+    "priceAsc": "listings.priceAsc",
+    "priceDesc": "listings.priceDesc"
   },
-  "book": {
-    "title": "احجز إقامـتك",
-    "subtitle": "اختر تواريخ إقامتك وسنعرض عليك الغرف المتاحة لعدد نزيلك.",
-    "stay": {
-      "title": "إقامـتك",
-      "checkIn": "الوصول",
-      "checkOut": "المغادرة",
-      "adults": "بالغون",
-      "children": "أطفال",
-      "search": "تحقق من التوفر",
-      "searching": "جارٍ التحقق من التوفر…",
-      "stale": "تم تغيير تواريخ إقامتك أو عدد النزلاء. من فضلك تحقق من التوفر مرة أخرى لعرض الغرف المتاحة."
-    },
-    "room": {
-      "title": "اختر الغرفة",
-      "none": "لا توجد غرف متاحة لهذه التواريخ. جرّب تواريخ أخرى أو عدد نزيل أقل.",
-      "capacity": "{n, plural, one {حتى # نزيل} two {حتى نزيلين} few {حتى # نزلاء} many {حتى # نزيلًا} other {حتى # نزيل}}",
-      "askHotel": "اسأل الفندق عبر واتساب",
-      "askMessage": "مرحبًا، أودّ الاستفسار عن غرفة من {checkIn} إلى {checkOut} لعدد {guests} من الضيوف."
-    },
-    "guest": {
-      "title": "بيانات النزيل",
-      "name": "الاسم بالكامل",
-      "phone": "رقم الهاتف",
-      "email": "البريد الإلكتروني (اختياري)",
-      "country": "الدولة (اختياري)",
-      "notes": "ملاحظات (اختياري)",
-      "submit": "أرسل طلب الحجز",
-      "submitting": "جارٍ إرسال الطلب…"
-    },
-    "summary": {
-      "title": "ملخص الإقامة",
-      "guests": "النزلاء",
-      "nights": "الليالي",
-      "room": "الغرفة",
-      "total": "الإجمالي التقديري",
-      "disclaimer": "الإجمالي تقديري بناءً على سعر الليلة، ويلغي الفندق التسعار النهائية."
-    },
-    "success": {
-      "title": "تم استلام طلب الحجز",
-      "body": "شكرًا لك. سيقوم فريق الحجوزات بتأكيد إقامتك قريبًا.",
-      "whatsapp": "المتابعة عبر واتساب",
-      "whatsappMessage": "مرحبًا، أود تأكيد طلب الحجز ({reference})."
-    },
-    "steps": {
-      "stay": "الإقامة",
-      "room": "الغرفة",
-      "guest": "بياناتك",
-      "review": "المراجعة",
-      "progress": "الخطوة {current} من {total}"
-    },
-    "nav": { "back": "رجوع", "next": "التالي" },
-    "review": {
-      "title": "مراجعة طلبك",
-      "request": "هذا طلب حجز وليس تأكيدًا نهائيًا. سيتواصل معك الفندق عبر واتساب لتأكيده، ولا يتم أي دفع عبر الموقع.",
-      "estimatedTotal": "الإجمالي التقديري",
-      "changeDates": "تغيير التواريخ"
-    },
-    "confirmation": {
-      "title": "تم استلام طلبك",
-      "greeting": "شكرًا {name}، تم إرسال طلب الحجز إلى الفندق.",
-      "reference": "رقم المرجع",
-      "next": {
-        "title": "ما الخطوات التالية؟",
-        "step1": "يتأكد الفندق من توفر الغرفة في التواريخ التي اخترتها.",
-        "step2": "يتواصل معك الفندق عبر واتساب لتأكيد الحجز.",
-        "step3": "احتفظ برقم المرجع إذا احتجت إلى التواصل مع الفندق."
-      },
-      "notFound": {
-        "title": "لم نعثر على هذا الطلب",
-        "body": "تأكد من رقم المرجع في الرابط، أو أرسل طلبًا جديدًا. وإذا كنت قد أرسلت طلبًا بالفعل فسيتواصل معك الفندق عبر واتساب.",
-        "cta": "إرسال طلب جديد"
-      }
-    },
-    "errors": {
-      "invalidDate": "من فضلك أدخل تاريخًا صحيحًا.",
-      "adultsRequired": "يلزم إدخال نزيل بالغ واحد على الأقل.",
-      "adultsInvalid": "عدد البالغين غير صحيح.",
-      "childrenInvalid": "عدد الأطفال غير صحيح.",
-      "roomRequired": "من فضلك اختر غرفة.",
-      "nameRequired": "من فضلك أدخل اسمك بالكامل.",
-      "nameTooLong": "الاسم طويل جدًا.",
-      "phoneRequired": "من فضلك أدخل رقم الهاتف.",
-      "phoneInvalid": "من فضلك أدخل رقم هاتف صحيحًا.",
-      "emailInvalid": "من فضلك أدخل بريدًا إلكترونيًا صحيحًا.",
-      "countryTooLong": "اسم الدولة طويل جدًا.",
-      "notesTooLong": "الملاحظات طويلة جدًا.",
-      "checkOutOrder": "يجب أن يكون تاريخ المغادرة بعد تاريخ الوصول.",
-      "invalidDates": "من فضلك اختر تاريخ وصول ومغادرة صحيحين.",
-      "pastDate": "لا يمكن اختيار تاريخ وصول في الماضي.",
-      "roomNotFound": "هذه الغرفة لم تعد متاحة. من فضلك اختر غرفة أخرى.",
-      "overCapacity": "الغرفة المختارة لا تتسع لجميع النزلاء.",
-      "datesUnavailable": "تم حجز هذه الغرفة بالفعل في التواريخ المختارة. من فضلك اختر غرفة أخرى.",
-      "referenceFailed": "تعذر إنشاء رقم الحجز. من فضلك حاول مرة أخرى.",
-      "validationFailed": "بعض البيانات مفقودة أو غير صحيحة. من فضلك راجع النموذج.",
-      "unknown": "حدث خطأ ما. من فضلك حاول مرة أخرى.",
-      "checkFields": "يرجى مراجعة الحقول المحددة."
-    }
+  "listing": {
+    "title": "listing.title",
+    "description": "listing.description",
+    "propertyType": "listing.propertyType",
+    "listingType": "listing.listingType",
+    "price": "listing.price",
+    "bedrooms": "listing.bedrooms",
+    "bathrooms": "listing.bathrooms",
+    "area": "listing.area",
+    "furnished": "listing.furnished",
+    "genderPreference": "listing.genderPreference",
+    "neighborhood": "listing.neighborhood",
+    "address": "listing.address",
+    "amenities": "listing.amenities",
+    "contactOwner": "listing.contactOwner",
+    "showPhone": "listing.showPhone",
+    "phone": "listing.phone",
+    "whatsapp": "listing.whatsapp",
+    "save": "listing.save",
+    "saved": "listing.saved",
+    "report": "listing.report",
+    "notAvailable": "listing.notAvailable",
+    "expired": "listing.expired"
   },
   "dashboard": {
-    "nav": { "overview": "نظرة عامة", "bookings": "الحجوزات" },
-    "status": {
-      "pending": "قيد الانتظار",
-      "confirmed": "مؤكد",
-      "checked_in": "تم تسجيل الوصول",
-      "checked_out": "تم تسجيل المغادرة",
-      "cancelled": "ملغي",
-      "declined": "مرفوض",
-      "no_show": "لم يحضر"
-    },
-    "bookings": {
-      "title": "طلبات الحجز",
-      "tabs": { "pending": "قيد الانتظار", "confirmed": "مؤكدة", "all": "الكل" },
-      "empty": {
-        "pending": "لا توجد طلبات قيد الانتظار. ستظهر الطلبات الجديدة هنا.",
-        "confirmed": "لا توجد حجوزات مؤكدة بعد.",
-        "all": "لا توجد حجوزات بعد."
-      },
-      "received": "وصل {time}",
-      "room": "الغرفة",
-      "dates": "التواريخ",
-      "nights": "عدد الليالي",
-      "guests": "عدد الضيوف",
-      "total": "الإجمالي",
-      "notes": "ملاحظات الضيف",
-      "whatsapp": "مراسلة الضيف عبر واتساب",
-      "whatsappGreeting": "مرحبًا {name}، معك {hotel}. استلمنا طلب حجزك رقم {reference}."
-    },
-    "actions": {
-      "confirm": "تأكيد الحجز",
-      "decline": "رفض الطلب",
-      "cancel": "إلغاء الحجز",
-      "ask": {
-        "decline": "هل تريد رفض هذا الطلب؟",
-        "cancel": "هل تريد إلغاء هذا الحجز؟"
-      },
-      "yes": "نعم",
-      "no": "تراجع",
-      "done": {
-        "confirm": "تم تأكيد الحجز.",
-        "decline": "تم رفض الطلب.",
-        "cancel": "تم إلغاء الحجز."
-      },
-      "errors": {
-        "noAccess": "ليست لديك صلاحية لتنفيذ هذا الإجراء.",
-        "notFound": "لم يتم العثور على الحجز.",
-        "invalidTransition": "لا يمكن تغيير حالة هذا الحجز الآن. حدّث الصفحة.",
-        "datesUnavailable": "هذه التواريخ محجوزة بالفعل لحجز مؤكد آخر لنفس الغرفة.",
-        "unknown": "حدث خطأ ما. حاول مرة أخرى."
-      }
-    },
-    "noAccess": {
-      "title": "لا تتوفر صلاحية بعد",
-      "body": "حسابك غير مرتبط بفندق حتى الآن. أرسل هذا المعرّف إلى فريق Auric لتفعيل الوصول.",
-      "userId": "معرّف الحساب"
-    },
-    "overview": {
-      "title": "نظرة عامة",
-      "viewAll": "عرض الكل",
-      "banner": {
-        "title": "{count, plural, zero {لا توجد طلبات حجز بانتظار ردّك} one {طلب حجز واحد بانتظار ردّك} two {طلبا حجز بانتظار ردّك} few {{formatted} طلبات حجز بانتظار ردّك} many {{formatted} طلب حجز بانتظار ردّك} other {{formatted} طلب حجز بانتظار ردّك}}",
-        "body": "كلما أسرعتَ في الرد عبر واتساب، زادت فرصة تأكيد الحجز.",
-        "cta": "مراجعة الطلبات",
-        "clear": "لا توجد طلبات معلّقة. كل شيء تحت السيطرة."
-      },
-      "stats": {
-        "pending": "بانتظار الرد",
-        "arrivalsToday": "وصول اليوم",
-        "inHouse": "نزلاء في الفندق",
-        "revenue": "هذا الشهر",
-        "revenueHint": "إقامات مؤكدة تبدأ خلال هذا الشهر"
-      },
-      "waiting": { "title": "بانتظار ردّك", "empty": "لا شيء بانتظار الرد." },
-      "arrivals": {
-        "title": "الأيام السبعة القادمة",
-        "today": "اليوم",
-        "guests": "{count, plural, zero {بلا نزلاء} one {نزيل واحد} two {نزيلان} few {{formatted} نزلاء} many {{formatted} نزيلاً} other {{formatted} نزيل}}",
-        "empty": "لا توجد وصولات مؤكدة خلال الأيام القادمة."
-      },
-      "greeting": {
-        "morning": "صباح الخير",
-        "afternoon": "طاب يومك",
-        "evening": "مساء الخير"
-      }
-    }
+    "title": "dashboard.title",
+    "myListings": "dashboard.myListings",
+    "newListing": "dashboard.newListing",
+    "edit": "dashboard.edit",
+    "delete": "dashboard.delete",
+    "publish": "dashboard.publish",
+    "unpublish": "dashboard.unpublish",
+    "markRented": "dashboard.markRented",
+    "markSold": "dashboard.markSold",
+    "renew": "dashboard.renew",
+    "statusDraft": "dashboard.statusDraft",
+    "statusActive": "dashboard.statusActive",
+    "statusRented": "dashboard.statusRented",
+    "statusSold": "dashboard.statusSold",
+    "statusArchived": "dashboard.statusArchived",
+    "noListings": "dashboard.noListings",
+    "inquiries": "dashboard.inquiries"
+  },
+  "admin": {
+    "title": "admin.title",
+    "reports": "admin.reports",
+    "listings": "admin.listings",
+    "users": "admin.users",
+    "review": "admin.review",
+    "dismiss": "admin.dismiss",
+    "suspend": "admin.suspend",
+    "unsuspend": "admin.unsuspend",
+    "verify": "admin.verify",
+    "unpublish": "admin.unpublish",
+    "delete": "admin.delete"
+  },
+  "auth": {
+    "signIn": "auth.signIn",
+    "signOut": "auth.signOut",
+    "account": "auth.account"
+  },
+  "errors": {
+    "validation": "errors.validation",
+    "unauthorized": "errors.unauthorized",
+    "forbidden": "errors.forbidden",
+    "notFound": "errors.notFound",
+    "rateLimited": "errors.rateLimited",
+    "suspended": "errors.suspended",
+    "unknown": "errors.unknown"
+  },
+  "footer": {
+    "quickLinks": "footer.quickLinks",
+    "tagline": "footer.tagline",
+    "copyright": "footer.copyright"
   }
 }

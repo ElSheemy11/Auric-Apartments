@@ -4,220 +4,336 @@ import {
   text,
   integer,
   boolean,
-  date,
   timestamp,
-  jsonb,
   pgEnum,
   index,
+  uniqueIndex,
+  primaryKey,
+  doublePrecision,
+  numeric,
   unique,
+  check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
-export const tenantLocaleEnum = pgEnum("tenant_locale", ["en", "ar"]);
+/* ------------------------------ Enums ------------------------------ */
 
-export const roomViewEnum = pgEnum("room_view", ["nile", "garden", "city"]);
-
-export const bookingStatusEnum = pgEnum("booking_status", [
-  "pending",
-  "confirmed",
-  "checked_in",
-  "checked_out",
-  "cancelled",
-  "declined",
-  "no_show",
+export const listingTypeEnum = pgEnum("listing_type", ["rent", "sale"]);
+export const propertyTypeEnum = pgEnum("property_type", [
+  "apartment",
+  "room",
+  "shared_room",
+  "studio",
+  "house",
 ]);
-
+export const billingPeriodEnum = pgEnum("billing_period", [
+  "monthly",
+  "yearly",
+  "one_time",
+]);
+export const genderPreferenceEnum = pgEnum("gender_preference", [
+  "any",
+  "male",
+  "female",
+]);
+export const propertyStatusEnum = pgEnum("property_status", [
+  "draft",
+  "active",
+  "rented",
+  "sold",
+  "archived",
+]);
 export const inquiryStatusEnum = pgEnum("inquiry_status", [
   "new",
   "replied",
   "closed",
 ]);
+export const reportReasonEnum = pgEnum("report_reason", [
+  "fraud",
+  "misleading",
+  "inappropriate",
+  "duplicate",
+  "rented_already",
+  "other",
+]);
+export const reportStatusEnum = pgEnum("report_status", [
+  "open",
+  "reviewed",
+  "dismissed",
+]);
 
-export const tenants = pgTable("tenants", {
+/* ------------------------------ Users ------------------------------ */
+
+export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
-  slug: text("slug").notNull().unique(),
-  name: text("name").notNull(),
-  defaultLocale: tenantLocaleEnum("default_locale").notNull().default("en"),
-  whatsappNumber: text("whatsapp_number").notNull(),
-  contactEmail: text("contact_email").notNull(),
-  currency: text("currency").notNull().default("USD"),
-  timezone: text("timezone").notNull().default("Africa/Cairo"),
-  modules: jsonb("modules")
-    .$type<{
-      experiences: boolean;
-      offers: boolean;
-      content: boolean;
-      reports: boolean;
-    }>()
-    .notNull()
-    .default({
-      experiences: true,
-      offers: false,
-      content: false,
-      reports: false,
-    }),
+  clerkId: text("clerk_id").notNull().unique(),
+  name: text("name"),
+  // Not unique: Clerk is the identity source (clerk_id). A unique email would
+  // crash sign-in if an account is re-created in Clerk with the same email.
+  email: text("email"),
+  phone: text("phone"),
+  whatsapp: text("whatsapp"), // digits only, no "+"; revealed only via rate-limited action
+  imageUrl: text("image_url"),
+  isAdmin: boolean("is_admin").notNull().default(false),
+  isSuspended: boolean("is_suspended").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
 });
 
-export const rooms = pgTable(
-  "rooms",
+/* ---------------------------- Properties --------------------------- */
+
+export const properties = pgTable(
+  "properties",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    tenantId: uuid("tenant_id")
+    // Deleting a user deletes their listings. Delete their ImageKit files
+    // in app code first (the DB cannot do that).
+    ownerId: uuid("owner_id")
       .notNull()
-      .references(() => tenants.id, { onDelete: "cascade" }),
-    slug: text("slug").notNull(),
-    nameEn: text("name_en").notNull(),
-    nameAr: text("name_ar").notNull(),
-    descriptionEn: text("description_en"),
-    descriptionAr: text("description_ar"),
-    view: roomViewEnum("view").notNull(),
-    bedType: text("bed_type").notNull(),
-    sizeSqm: integer("size_sqm").notNull(),
-    capacity: integer("capacity").notNull(),
-    basePriceCents: integer("base_price_cents").notNull(),
+      .references(() => users.id, { onDelete: "cascade" }),
+    slug: text("slug").notNull().unique(),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    propertyType: propertyTypeEnum("property_type").notNull(),
+    listingType: listingTypeEnum("listing_type").notNull(),
+    price: integer("price").notNull(), // whole EGP (pounds), not piastres
+    billingPeriod: billingPeriodEnum("billing_period")
+      .notNull()
+      .default("monthly"),
+    bedrooms: integer("bedrooms").notNull(),
+    bathrooms: integer("bathrooms").notNull(),
+    areaM2: integer("area_m2").notNull(),
+    furnished: boolean("furnished").notNull().default(false),
+    genderPreference: genderPreferenceEnum("gender_preference")
+      .notNull()
+      .default("any"),
+    // numeric comes back from Drizzle as a string: use Number(x) when displaying.
+    distanceToUniversityKm: numeric("distance_to_university_km", {
+      precision: 6,
+      scale: 2,
+    }),
+    neighborhood: text("neighborhood").notNull(),
+    city: text("city").notNull().default("aswan"),
+    address: text("address").notNull(),
+    latitude: doublePrecision("latitude"),
+    longitude: doublePrecision("longitude"),
     amenities: text("amenities")
       .array()
       .notNull()
       .default(sql`'{}'::text[]`),
-    images: text("images")
-      .array()
+    status: propertyStatusEnum("status").notNull().default("draft"),
+    isPublished: boolean("is_published").notNull().default(false),
+    isVerified: boolean("is_verified").notNull().default(false),
+    expiresAt: timestamp("expires_at", { withTimezone: true })
       .notNull()
-      .default(sql`'{}'::text[]`),
-    isActive: boolean("is_active").notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-  },
-  (table) => [
-    unique("rooms_tenant_slug_unique").on(table.tenantId, table.slug),
-    index("rooms_tenant_id_idx").on(table.tenantId),
-  ]
-);
-
-export const experiences = pgTable(
-  "experiences",
-  {
-    id: uuid("id").defaultRandom().primaryKey(),
-    tenantId: uuid("tenant_id")
-      .notNull()
-      .references(() => tenants.id, { onDelete: "cascade" }),
-    slug: text("slug").notNull(),
-    nameEn: text("name_en").notNull(),
-    nameAr: text("name_ar").notNull(),
-    descriptionEn: text("description_en"),
-    descriptionAr: text("description_ar"),
-    priceCents: integer("price_cents").notNull(),
-    durationMinutes: integer("duration_minutes").notNull(),
-    images: text("images")
-      .array()
-      .notNull()
-      .default(sql`'{}'::text[]`),
-    isActive: boolean("is_active").notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-  },
-  (table) => [
-    unique("experiences_tenant_slug_unique").on(table.tenantId, table.slug),
-    index("experiences_tenant_id_idx").on(table.tenantId),
-  ]
-);
-
-export const bookings = pgTable(
-  "bookings",
-  {
-    id: uuid("id").defaultRandom().primaryKey(),
-    tenantId: uuid("tenant_id")
-      .notNull()
-      .references(() => tenants.id, { onDelete: "cascade" }),
-    reference: text("reference").notNull(),
-    roomId: uuid("room_id")
-      .notNull()
-      .references(() => rooms.id, { onDelete: "restrict" }),
-    checkIn: date("check_in").notNull(),
-    checkOut: date("check_out").notNull(),
-    adults: integer("adults").notNull(),
-    children: integer("children").notNull().default(0),
-    guestName: text("guest_name").notNull(),
-    guestPhone: text("guest_phone").notNull(),
-    guestEmail: text("guest_email"),
-    guestCountry: text("guest_country"),
-    notes: text("notes"),
-    status: bookingStatusEnum("status").notNull().default("pending"),
-    totalPriceCents: integer("total_price_cents").notNull(),
-    source: text("source").notNull().default("website"),
+      .default(sql`now() + interval '60 days'`),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .defaultNow()
-      .notNull(),
-    confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+      .notNull()
+      .$onUpdate(() => new Date()),
   },
   (table) => [
-    unique("bookings_tenant_reference_unique").on(
-      table.tenantId,
-      table.reference
+    index("properties_listing_type_idx").on(table.listingType),
+    index("properties_property_type_idx").on(table.propertyType),
+    index("properties_neighborhood_idx").on(table.neighborhood),
+    index("properties_city_idx").on(table.city),
+    index("properties_owner_id_idx").on(table.ownerId),
+    index("properties_expires_at_idx").on(table.expiresAt),
+    // Public search only ever reads active + published rows, so index just those.
+    index("properties_public_created_idx")
+      .on(table.createdAt)
+      .where(sql`status = 'active' AND is_published = true`),
+    index("properties_public_price_idx")
+      .on(table.price)
+      .where(sql`status = 'active' AND is_published = true`),
+    check("properties_price_nonneg", sql`price >= 0`),
+    check("properties_bedrooms_nonneg", sql`bedrooms >= 0`),
+    check("properties_bathrooms_nonneg", sql`bathrooms >= 0`),
+    check("properties_area_nonneg", sql`area_m2 >= 0`),
+    check(
+      "properties_latitude_range",
+      sql`latitude IS NULL OR latitude BETWEEN -90 AND 90`,
     ),
-    index("bookings_tenant_id_idx").on(table.tenantId),
-    index("bookings_tenant_status_idx").on(table.tenantId, table.status),
-    index("bookings_tenant_check_in_idx").on(table.tenantId, table.checkIn),
-    index("bookings_room_id_idx").on(table.roomId),
-  ]
+    check(
+      "properties_longitude_range",
+      sql`longitude IS NULL OR longitude BETWEEN -180 AND 180`,
+    ),
+  ],
 );
+
+/* --------------------------- Rate limiting -------------------------- */
+
+export const rateLimits = pgTable(
+  "rate_limits",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    identifier: text("identifier").notNull(), // "ip:<hash>" or "user:<id>"
+    windowSeconds: integer("window_seconds").notNull(),
+    count: integer("count").notNull().default(1),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    // This unique constraint already indexes identifier lookups.
+    unique("rate_limits_identifier_window_idx").on(
+      table.identifier,
+      table.windowSeconds,
+    ),
+    index("rate_limits_expires_at_idx").on(table.expiresAt),
+  ],
+);
+
+/* ------------------------- Property images ------------------------- */
+
+export const propertyImages = pgTable(
+  "property_images",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    propertyId: uuid("property_id")
+      .notNull()
+      .references(() => properties.id, { onDelete: "cascade" }),
+    url: text("url").notNull(),
+    storageKey: text("storage_key").notNull(), // ImageKit fileId, used for deletion
+    position: integer("position").notNull().default(0),
+    caption: text("caption"),
+  },
+  (table) => [
+    index("property_images_property_position_idx").on(
+      table.propertyId,
+      table.position,
+    ),
+  ],
+);
+
+/* ----------------------------- Favorites ---------------------------- */
+
+export const favorites = pgTable(
+  "favorites",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    propertyId: uuid("property_id")
+      .notNull()
+      .references(() => properties.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    // The composite PK already covers lookups by user_id.
+    primaryKey({ columns: [table.userId, table.propertyId] }),
+    index("favorites_property_id_idx").on(table.propertyId),
+  ],
+);
+
+/* ----------------------------- Inquiries ---------------------------- */
 
 export const inquiries = pgTable(
   "inquiries",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    tenantId: uuid("tenant_id")
+    propertyId: uuid("property_id")
       .notNull()
-      .references(() => tenants.id, { onDelete: "cascade" }),
+      .references(() => properties.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
     name: text("name").notNull(),
-    email: text("email"),
-    phone: text("phone"),
+    phone: text("phone").notNull(),
     message: text("message").notNull(),
     status: inquiryStatusEnum("status").notNull().default("new"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
   },
-  (table) => [index("inquiries_tenant_id_idx").on(table.tenantId)]
+  (table) => [
+    index("inquiries_property_id_idx").on(table.propertyId),
+    index("inquiries_user_id_idx").on(table.userId),
+  ],
 );
 
-export const tenantContact = pgTable("tenant_contact", {
-  tenantId: uuid("tenant_id")
-    .primaryKey()
-    .references(() => tenants.id, { onDelete: "cascade" }),
-  phone: text("phone"),
-  whatsapp: text("whatsapp"), // any format, e.g. "+20 100 000 0000"
-  email: text("email"),
-  addressEn: text("address_en"),
-  addressAr: text("address_ar"),
-  hoursEn: text("hours_en"), // e.g. "Reception open 24 hours"
-  hoursAr: text("hours_ar"),
-  // What Google Maps should search for: "Hotel Name, Aswan" or "24.0889,32.8998".
-  // One field drives both the embedded map and the directions link.
-  mapQuery: text("map_query"),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+/* ------------------------------ Reports ----------------------------- */
 
-export type Tenant = InferSelectModel<typeof tenants>;
-export type NewTenant = InferInsertModel<typeof tenants>;
+export const reports = pgTable(
+  "reports",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    propertyId: uuid("property_id")
+      .notNull()
+      .references(() => properties.id, { onDelete: "cascade" }),
+    reporterId: uuid("reporter_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    reason: reportReasonEnum("reason").notNull(),
+    details: text("details"),
+    status: reportStatusEnum("status").notNull().default("open"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("reports_property_id_idx").on(table.propertyId),
+    index("reports_reporter_id_idx").on(table.reporterId),
+    index("reports_status_idx").on(table.status),
+    // One open report per user per property, enforced by the database.
+    uniqueIndex("reports_one_open_per_user_idx")
+      .on(table.reporterId, table.propertyId)
+      .where(sql`status = 'open'`),
+  ],
+);
 
-export type Room = InferSelectModel<typeof rooms>;
-export type NewRoom = InferInsertModel<typeof rooms>;
+/* --------------------------- Contact reveals ------------------------ */
 
-export type Experience = InferSelectModel<typeof experiences>;
-export type NewExperience = InferInsertModel<typeof experiences>;
+export const contactReveals = pgTable(
+  "contact_reveals",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    propertyId: uuid("property_id")
+      .notNull()
+      .references(() => properties.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
+    ipHash: text("ip_hash").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("contact_reveals_property_id_idx").on(table.propertyId),
+    index("contact_reveals_user_id_idx").on(table.userId),
+    index("contact_reveals_ip_created_idx").on(table.ipHash, table.createdAt),
+  ],
+);
 
-export type Booking = InferSelectModel<typeof bookings>;
-export type NewBooking = InferInsertModel<typeof bookings>;
+/* ------------------------------- Types ------------------------------ */
 
+export type User = InferSelectModel<typeof users>;
+export type NewUser = InferInsertModel<typeof users>;
+export type Property = InferSelectModel<typeof properties>;
+export type NewProperty = InferInsertModel<typeof properties>;
+export type PropertyImage = InferSelectModel<typeof propertyImages>;
+export type NewPropertyImage = InferInsertModel<typeof propertyImages>;
+export type Favorite = InferSelectModel<typeof favorites>;
+export type NewFavorite = InferInsertModel<typeof favorites>;
 export type Inquiry = InferSelectModel<typeof inquiries>;
 export type NewInquiry = InferInsertModel<typeof inquiries>;
+export type Report = InferSelectModel<typeof reports>;
+export type NewReport = InferInsertModel<typeof reports>;
+export type ContactReveal = InferSelectModel<typeof contactReveals>;
+export type NewContactReveal = InferInsertModel<typeof contactReveals>;
+export type RateLimit = InferSelectModel<typeof rateLimits>;
+export type NewRateLimit = InferInsertModel<typeof rateLimits>;
 
-export type BookingStatus = (typeof bookingStatusEnum.enumValues)[number];
+export type ListingType = (typeof listingTypeEnum.enumValues)[number];
+export type PropertyType = (typeof propertyTypeEnum.enumValues)[number];
+export type BillingPeriod = (typeof billingPeriodEnum.enumValues)[number];
+export type GenderPreference = (typeof genderPreferenceEnum.enumValues)[number];
+export type PropertyStatus = (typeof propertyStatusEnum.enumValues)[number];
 export type InquiryStatus = (typeof inquiryStatusEnum.enumValues)[number];
-export type RoomView = (typeof roomViewEnum.enumValues)[number];
-export type TenantLocale = (typeof tenantLocaleEnum.enumValues)[number];
+export type ReportReason = (typeof reportReasonEnum.enumValues)[number];
+export type ReportStatus = (typeof reportStatusEnum.enumValues)[number];

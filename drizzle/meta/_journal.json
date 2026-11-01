@@ -22,6 +22,13 @@
       "when": 1792918206661,
       "tag": "0002_fresh_mulholland_black",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793496110618,
+      "tag": "0003_complete_iron_fist",
+      "breakpoints": true
     }
   ]
 }

@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 import { useLocale, useTranslations } from "next-intl";
 import {
-  CalendarCheckIcon,
   ExternalLinkIcon,
   LayoutDashboardIcon,
   type LucideIcon,
@@ -30,9 +29,8 @@ const linkClass = (active: boolean) =>
   );
 
 export function DashboardHeader() {
-  const t = useTranslations("dashboard.nav");
+  const t = useTranslations();
   const tNav = useTranslations("nav");
-  const tAuth = useTranslations("auth");
   const locale = useLocale();
   const pathname = usePathname();
 
@@ -44,15 +42,9 @@ export function DashboardHeader() {
   }[] = [
     {
       href: `/${locale}/dashboard`,
-      label: t("overview"),
+      label: t("dashboard.myListings"),
       exact: true,
       icon: LayoutDashboardIcon,
-    },
-    {
-      href: `/${locale}/dashboard/bookings`,
-      label: t("bookings"),
-      exact: false,
-      icon: CalendarCheckIcon,
     },
   ];
 
@@ -121,7 +113,7 @@ export function DashboardHeader() {
             )}
           >
             <ExternalLinkIcon aria-hidden className="size-4 rtl:-scale-x-100" />
-            <span className="sr-only sm:not-sr-only">{tAuth("backToSite")}</span>
+            <span className="sr-only sm:not-sr-only">{tNav("home")}</span>
           </a>
           <UserButton appearance={{ elements: { avatarBox: "size-9" } }} />
         </div>

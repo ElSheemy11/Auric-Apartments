@@ -1,37 +1,27 @@
-import "server-only";
-import { db } from "@/server/db";
-import { inquiries, type Inquiry } from "@/server/db/schema";
-import { createInquirySchema } from "@/lib/schemas/inquiry";
+"use server";
 
-export type CreateInquiryResult =
-  | { ok: true; inquiry: Inquiry }
-  | { ok: false; error: string; message?: string };
+import { createInquirySchema } from "@/lib/validators/inquiry";
+import { getCurrentUser } from "@/lib/auth";
+import { failure, fromUnknown, type ActionResult } from "@/lib/action-result";
 
 export async function createInquiry(
-  tenantId: string,
-  input: unknown
-): Promise<CreateInquiryResult> {
-  const parsed = createInquirySchema.safeParse(input);
-  if (!parsed.success) {
-    return {
-      ok: false,
-      error: "validation_failed",
-      message: parsed.error.issues[0]?.message || "Validation failed",
-    };
+  input: unknown,
+): Promise<ActionResult<{ id: string }>> {
+  try {
+    // Anonymous inquiries allowed; a signed-in suspended user is blocked.
+    const user = await getCurrentUser();
+    if (user?.isSuspended) {
+      throw new Error("user is suspended");
+    }
+
+    const parsed = createInquirySchema.safeParse(input);
+    if (!parsed.success) {
+      return failure("validation_failed", "errors.validation");
+    }
+    // TODO(step-2): rate limit, insert inquiry, notify owner.
+    return failure("not_implemented", "errors.unknown");
+  } catch (err) {
+    const e = fromUnknown(err);
+    return failure(e.code, e.messageKey);
   }
-
-  const [inquiry] = await db
-    .insert(inquiries)
-    .values({
-      tenantId,
-      name: parsed.data.name,
-      email: parsed.data.email,
-      phone: parsed.data.phone,
-      message: parsed.data.message,
-      status: "new",
-    })
-    .returning();
-
-  return { ok: true, inquiry };
 }
-
