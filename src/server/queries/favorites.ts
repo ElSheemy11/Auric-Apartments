@@ -35,6 +35,7 @@ type FavoriteRow = {
   isPublished: boolean;
   isVerified: boolean;
   createdAt: Date;
+  distanceToUniversityKm: string | null;
 };
 
 function toListingView(row: FavoriteRow): ListingView {
@@ -59,7 +60,8 @@ function toListingView(row: FavoriteRow): ListingView {
     status: row.status,
     isPublished: row.isPublished,
     isVerified: row.isVerified,
-    createdAt: row.createdAt,
+    distanceToUniversityKm: row.distanceToUniversityKm,
+    createdAt: row.createdAt,   
   };
 }
 
@@ -86,6 +88,7 @@ export async function listFavorites(userId: string): Promise<ListingView[]> {
       status: properties.status,
       isPublished: properties.isPublished,
       isVerified: properties.isVerified,
+      distanceToUniversityKm: properties.distanceToUniversityKm,
       createdAt: properties.createdAt,
     })
     .from(favorites)
